@@ -1,0 +1,120 @@
+paths:
+  api/pets/:
+    get:
+      summary: Obtener todas las mascotas
+      tags:
+        - Mascotas
+      responses:
+        "200":
+          description: Lista de mascotas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mascota'
+    post:
+      summary: Crear una nueva mascota
+      tags:
+        - Mascotas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mascota'
+      responses:
+        "201":
+          description: Mascota creada exitosamente
+
+  /api/users/:
+    post:
+      summary: Registrar un nuevo usuario
+      tags:
+        - Usuarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        "201":
+          description: Usuario registrado exitosamente
+
+  /api/adoptions/:
+    post:
+      summary: Proceso de adopción
+      tags:
+        - Adopción
+      parameters:
+        - name: owner
+          in: query
+          required: true
+          description: ID del propietario
+          schema:
+            type: string
+        - name: pet
+          in: query
+          required: true
+          description: ID de la mascota a adoptar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Adopción exitosa
+
+components:
+  schemas:
+    Mascota:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID de la mascota
+        nombre:
+          type: string
+          description: Nombre de la mascota
+        especie:
+          type: string
+          description: Especie de la mascota
+      example:
+        id: 1
+        nombre: Max
+        especie: Perro
+
+    Usuario:
+      type: object
+      properties:
+        first_name:
+          type: string
+          description: Nombre del usuario
+        last_name:
+          type: string
+          description: Apellido del usuario
+        email:
+          type: string
+          description: Email del usuario
+        password:
+          type: string
+          description: Contraseña del usuario
+      example:
+        first_name: Juan
+        last_name: Perez
+        email: juan@example.com
+        password: password123
+
+  requestBodies:
+    Mascota:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Mascota'
+
+    Usuario:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Usuario'
